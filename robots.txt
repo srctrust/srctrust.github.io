@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://srctrust.github.io/sitemap.xml
