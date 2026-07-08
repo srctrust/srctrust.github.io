@@ -349,10 +349,10 @@ footer { background: var(--navy); color: rgba(255,255,255,0.75); padding: 60px 6
     .future-note p { color: var(--text-light); font-size: 0.95rem; margin-bottom: 16px; }
 
     /* Team section */
-    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-bottom: 48px; }
-    .team-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; text-align: center; transition: transform 0.2s; }
+    .team-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; margin-bottom: 48px; }
+    .team-card { width: calc(22% - 18px); background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; text-align: center; transition: transform 0.2s; }
     .team-card:hover { transform: translateY(-4px); }
-    .team-photo { width: 100%; height: 220px; object-fit: cover; object-position: top; display: block; }
+    .team-photo { width: 100%; height: 220px; object-fit: cover; object-position: center 20%; display: block; }
     .team-photo-id { width: 100%; height: 220px; object-fit: contain; background: #f0f6f9; display: block; padding: 12px; box-sizing: border-box; }
     @media (max-width: 700px) { .team-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; } .team-grid .team-card { width: 45%; flex: 0 0 45%; } .team-photo { height: 160px; object-fit: cover; object-position: top center; } }
     .team-placeholder { width: 100%; height: 220px; background: linear-gradient(135deg, #e8f5f3, #d0ecec); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 10px; }
@@ -601,6 +601,44 @@ body { background: var(--warm-white); }
     .back-link:hover { text-decoration: underline; }
     .copied-toast { display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--navy); color: #fff; padding: 10px 24px; border-radius: 30px; font-size: 14px; font-family: 'Poppins', sans-serif; }
 
+/* ── LANGUAGE SWITCHER ── */
+.lang-switcher {
+  position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+  font-family: 'Poppins', sans-serif;
+}
+.lang-toggle {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--navy); color: #fff;
+  padding: 10px 18px; border-radius: 30px;
+  cursor: pointer; font-size: 14px; font-weight: 600;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  transition: background 0.2s, transform 0.2s;
+  border: 2px solid rgba(255,255,255,0.15);
+  user-select: none;
+}
+.lang-toggle:hover { background: #1e4d3a; transform: translateY(-2px); }
+.lang-toggle .globe { font-size: 18px; }
+.lang-options {
+  position: absolute; bottom: 54px; right: 0;
+  background: #fff; border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  overflow: hidden; min-width: 140px;
+  opacity: 0; visibility: hidden; transform: translateY(10px);
+  transition: opacity 0.2s, visibility 0.2s, transform 0.2s;
+}
+.lang-switcher.open .lang-options { opacity: 1; visibility: visible; transform: translateY(0); }
+.lang-option {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 18px; cursor: pointer;
+  font-size: 14px; color: var(--navy); font-weight: 500;
+  transition: background 0.15s;
+}
+.lang-option:hover { background: var(--teal-light); }
+.lang-option.active { background: var(--teal-light); color: var(--teal-dark); font-weight: 700; }
+.lang-option .lang-label { flex: 1; }
+.lang-option .lang-check { color: var(--teal); font-weight: 700; }
+@media (max-width: 500px) { .lang-switcher { bottom: 16px; right: 16px; } .lang-toggle { padding: 8px 14px; font-size: 13px; } }
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
@@ -611,126 +649,126 @@ body { background: var(--warm-white); }
     <div class="nav-logo-text"><strong>Shilu Rekha</strong><span>Charitable Trust</span></div>
   </a>
   <ul class="nav-links" id="navLinks">
-    <li><a href="#home" data-page="home" class="active">Home</a></li>
-    <li><a href="#about" data-page="about">About</a></li>
-    <li><a href="#activities" data-page="activities">Our Work</a></li>
-    <li><a href="#projects" data-page="projects">Projects</a></li>
-    <li><a href="#future" data-page="future">Future Plans</a></li>
-    <li><a href="#financials" data-page="financials">Financials</a></li>
-    <li><a href="#contact" data-page="contact">Contact</a></li>
-    <li><a href="#donate" data-page="donate" class="btn-donate">Donate</a></li>
+    <li><a href="#home" data-page="home" class="active" data-i18n="nav_home">Home</a></li>
+    <li><a href="#about" data-page="about" data-i18n="nav_about">About</a></li>
+    <li><a href="#activities" data-page="activities" data-i18n="nav_work">Our Work</a></li>
+    <li><a href="#projects" data-page="projects" data-i18n="nav_projects">Projects</a></li>
+    <li><a href="#future" data-page="future" data-i18n="nav_future">Future Plans</a></li>
+    <li><a href="#financials" data-page="financials" data-i18n="nav_financials">Financials</a></li>
+    <li><a href="#contact" data-page="contact" data-i18n="nav_contact">Contact</a></li>
+    <li><a href="#donate" data-page="donate" class="btn-donate" data-i18n="nav_donate">Donate</a></li>
   </ul>
   <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
 </nav>
 <div class="page" id="page-home">
 <section id="hero">
   <div class="hero-content">
-    <p class="hero-org-name">Shilu Rekha Charitable Trust &nbsp;&middot;&nbsp; Est. 2020 &nbsp;&middot;&nbsp; Bankura, West Bengal</p>
-    <h1 class="hero-title">Empowering Rural Communities,<br><span>One Life at a Time</span></h1>
-    <p class="hero-subtitle">SRCT works with women, farmers, and youth in Bankura District to build sustainable livelihoods through skill development, vocational training, and community empowerment.</p>
+    <p class="hero-org-name" data-i18n="hero_org">Shilu Rekha Charitable Trust &nbsp;&middot;&nbsp; Est. 2020 &nbsp;&middot;&nbsp; Bankura, West Bengal</p>
+    <h1 class="hero-title" data-i18n="hero_title">Empowering Rural Communities,<br><span>One Life at a Time</span></h1>
+    <p class="hero-subtitle" data-i18n="hero_subtitle">SRCT works with women, farmers, and youth in Bankura District to build sustainable livelihoods through skill development, vocational training, and community empowerment.</p>
     <div class="hero-btns">
-      <a href="#about" class="hero-btn-outline">Learn More</a>
-      <a href="#donate" class="hero-btn-primary">Donate Now &rarr;</a>
+      <a href="#about" class="hero-btn-outline" data-i18n="hero_learn">Learn More</a>
+      <a href="#donate" class="hero-btn-primary" data-i18n="hero_donate">Donate Now &rarr;</a>
     </div>
   </div>
   <div class="hero-quote-strip">
-    <blockquote>"From Challenges to Change, Together We Rise, One Step at a Time"</blockquote>
-    <cite>— Dipak Kumar Mallick, Managing Director, SRCT</cite>
+    <blockquote data-i18n="hero_quote">"From Challenges to Change, Together We Rise, One Step at a Time"</blockquote>
+    <cite data-i18n="hero_cite">— Dipak Kumar Mallick, Managing Director, SRCT</cite>
   </div>
 </section>
 
 <section id="impact">
   <div class="impact-grid">
-    <div><div class="impact-number" data-target="300" data-suffix="+">0</div><div class="impact-label">Women Empowered</div></div>
-    <div><div class="impact-number" data-target="500" data-suffix="+">0</div><div class="impact-label">Farmers Trained</div></div>
-    <div><div class="impact-number" data-target="40" data-suffix="+">0</div><div class="impact-label">Villages Reached</div></div>
-    <div><div class="impact-number" data-target="40">0</div><div class="impact-label">Literacy Camps</div></div>
-    <div><div class="impact-number" data-target="2000" data-suffix="+">0</div><div class="impact-label">Lives Touched</div></div>
-    <div><div class="impact-number" data-target="4">0</div><div class="impact-label">Blocks in Bankura</div></div>
+    <div><div class="impact-number" data-target="300" data-suffix="+">0</div><div class="impact-label" data-i18n="impact_women">Women Empowered</div></div>
+    <div><div class="impact-number" data-target="500" data-suffix="+">0</div><div class="impact-label" data-i18n="impact_farmers">Farmers Trained</div></div>
+    <div><div class="impact-number" data-target="40" data-suffix="+">0</div><div class="impact-label" data-i18n="impact_villages">Villages Reached</div></div>
+    <div><div class="impact-number" data-target="40">0</div><div class="impact-label" data-i18n="impact_camps">Literacy Camps</div></div>
+    <div><div class="impact-number" data-target="2000" data-suffix="+">0</div><div class="impact-label" data-i18n="impact_lives">Lives Touched</div></div>
+    <div><div class="impact-number" data-target="4">0</div><div class="impact-label" data-i18n="impact_blocks">Blocks in Bankura</div></div>
   </div>
 </section>
 
 <section class="quick-nav-mobile">
-  <h3 style="text-align:center;color:var(--navy);font-size:1.1rem;margin-bottom:16px;">Explore</h3>
+  <h3 style="text-align:center;color:var(--navy);font-size:1.1rem;margin-bottom:16px;" data-i18n="qnav_explore">Explore</h3>
   <div class="quick-nav-grid">
-    <a href="#about" class="quick-nav-item">&#128100;<span>About Us</span></a>
-    <a href="#activities" class="quick-nav-item">&#128736;<span>Our Work</span></a>
-    <a href="#projects" class="quick-nav-item">&#128203;<span>Projects</span></a>
-    <a href="#financials" class="quick-nav-item">&#128176;<span>Financials</span></a>
-    <a href="#contact" class="quick-nav-item">&#128222;<span>Contact</span></a>
-    <a href="#donate" class="quick-nav-item">&#10084;<span>Donate</span></a>
+    <a href="#about" class="quick-nav-item">&#128100;<span data-i18n="qnav_about">About Us</span></a>
+    <a href="#activities" class="quick-nav-item">&#128736;<span data-i18n="qnav_work">Our Work</span></a>
+    <a href="#projects" class="quick-nav-item">&#128203;<span data-i18n="qnav_projects">Projects</span></a>
+    <a href="#financials" class="quick-nav-item">&#128176;<span data-i18n="qnav_financials">Financials</span></a>
+    <a href="#contact" class="quick-nav-item">&#128222;<span data-i18n="qnav_contact">Contact</span></a>
+    <a href="#donate" class="quick-nav-item">&#10084;<span data-i18n="qnav_donate">Donate</span></a>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
-    <h2 class="section-title">What SRCT Does</h2>
+    <h2 class="section-title" data-i18n="home_what">What SRCT Does</h2>
     <div class="section-underline"></div>
-    <p class="section-subtitle">From sustainable farming to women's micro-enterprises, SRCT creates lasting change across Bankura District.</p>
+    <p class="section-subtitle" data-i18n="home_what_sub">From sustainable farming to women's micro-enterprises, SRCT creates lasting change across Bankura District.</p>
     <div class="highlights-grid">
       <div class="highlight-card">
         <div class="highlight-icon">&#128105;</div>
-        <h3>Women Empowerment</h3>
-        <p>300+ rural women trained in micro-enterprises &mdash; phenyl, incense sticks, soap powder, and eco-friendly products &mdash; earning &#8377;2,500&ndash;&#8377;3,000/month.</p>
-        <a href="#activities" class="btn-outline">Learn More &rarr;</a>
+        <h3 data-i18n="home_women_title">Women Empowerment</h3>
+        <p data-i18n="home_women_desc">300+ rural women trained in micro-enterprises &mdash; phenyl, incense sticks, soap powder, and eco-friendly products &mdash; earning &#8377;2,500&ndash;&#8377;3,000/month.</p>
+        <a href="#activities" class="btn-outline" data-i18n="home_learn">Learn More &rarr;</a>
       </div>
       <div class="highlight-card">
         <div class="highlight-icon">&#127806;</div>
-        <h3>Sustainable Agriculture</h3>
-        <p>500+ farmers trained in organic farming, vermicomposting, and bio-fertilizer production in collaboration with the WB Dept. of Horticulture.</p>
-        <a href="#activities" class="btn-outline">Learn More &rarr;</a>
+        <h3 data-i18n="home_agri_title">Sustainable Agriculture</h3>
+        <p data-i18n="home_agri_desc">500+ farmers trained in organic farming, vermicomposting, and bio-fertilizer production in collaboration with the WB Dept. of Horticulture.</p>
+        <a href="#activities" class="btn-outline" data-i18n="home_learn">Learn More &rarr;</a>
       </div>
       <div class="highlight-card">
         <div class="highlight-icon">&#128202;</div>
-        <h3>Financial Literacy</h3>
-        <p>40 digital literacy camps across 40 villages in Bankura District, reaching 1,580 rural residents with knowledge on savings, banking, and fraud prevention.</p>
-        <a href="#projects" class="btn-outline">View Projects &rarr;</a>
+        <h3 data-i18n="home_lit_title">Financial Literacy</h3>
+        <p data-i18n="home_lit_desc">40 digital literacy camps across 40 villages in Bankura District, reaching 1,580 rural residents with knowledge on savings, banking, and fraud prevention.</p>
+        <a href="#projects" class="btn-outline" data-i18n="home_view">View Projects &rarr;</a>
       </div>
     </div>
   </div>
 </section>
 
 <div class="cta-band">
-  <h2>Ready to Make a Difference?</h2>
-  <p>Your contribution directly empowers women, farmers, and youth in Bankura District.</p>
+  <h2 data-i18n="cta1_title">Ready to Make a Difference?</h2>
+  <p data-i18n="cta1_sub">Your contribution directly empowers women, farmers, and youth in Bankura District.</p>
   <div class="btns">
-    <a href="#projects" class="btn-outline-white">See Our Work</a>
-    <a href="#donate" class="btn-primary">Support SRCT &rarr;</a>
+    <a href="#projects" class="btn-outline-white" data-i18n="cta1_btn1">See Our Work</a>
+    <a href="#donate" class="btn-primary" data-i18n="cta1_btn2">Support SRCT &rarr;</a>
   </div>
 </div>
 </div>
 <div class="page" id="page-about">
 <div class="page-header">
   <p class="breadcrumb"><a href="#home">Home</a> &rsaquo; About Us</p>
-  <h1>About Shilu Rekha Charitable Trust</h1>
-  <p>A nationally accredited NGO dedicated to empowering rural communities in Bankura District, West Bengal, since 2020.</p>
+  <h1 data-i18n="about_title">About Shilu Rekha Charitable Trust</h1>
+  <p data-i18n="about_subtitle">A nationally accredited NGO dedicated to empowering rural communities in Bankura District, West Bengal, since 2020.</p>
 </div>
 
 <section class="section">
   <div class="container">
-    <h2 class="section-title">Our Mission &amp; Recognition</h2>
+    <h2 class="section-title" data-i18n="about_mission_sec">Our Mission &amp; Recognition</h2>
     <div class="section-underline"></div>
     <div class="about-grid">
       <div class="about-card">
-        <h3>Our Mission</h3>
-        <p>SRCT is dedicated to empowering rural communities, particularly women and underserved groups, by providing vocational training, sustainable livelihood opportunities, and access to essential resources.</p>
-        <h3 style="margin-top:12px;">Our Vision</h3>
-        <p>To foster self-reliance and improve the quality of life in marginalized communities of Bankura District and eventually across India.</p>
+        <h3 data-i18n="about_mission_t">Our Mission</h3>
+        <p data-i18n="about_mission_p">SRCT is dedicated to empowering rural communities, particularly women and underserved groups, by providing vocational training, sustainable livelihood opportunities, and access to essential resources.</p>
+        <h3 style="margin-top:12px;" data-i18n="about_vision_t">Our Vision</h3>
+        <p data-i18n="about_vision_p">To foster self-reliance and improve the quality of life in marginalized communities of Bankura District and eventually across India.</p>
       </div>
       <div class="about-card">
-        <h3>Accreditations &amp; Recognition</h3>
+        <h3 data-i18n="about_accred_t">Accreditations &amp; Recognition</h3>
         <ul class="accred-list">
-          <li>Registered under Ministry of MSME, Govt. of India</li>
-          <li>Registered with NITI Aayog</li>
-          <li>Approved under Income Tax Act — Section 12A &amp; 80G</li>
-          <li>CSR1 registered — eligible for CSR funding</li>
-          <li>Recognized by Government of West Bengal</li>
-          <li>National SC/ST Hub partner</li>
+          <li data-i18n="about_accred1">Registered under Ministry of MSME, Govt. of India</li>
+          <li data-i18n="about_accred2">Registered with NITI Aayog</li>
+          <li data-i18n="about_accred3">Approved under Income Tax Act — Section 12A &amp; 80G</li>
+          <li data-i18n="about_accred4">CSR1 registered — eligible for CSR funding</li>
+          <li data-i18n="about_accred5">Recognized by Government of West Bengal</li>
+          <li data-i18n="about_accred6">National SC/ST Hub partner</li>
         </ul>
       </div>
     </div>
 
-    <h2 class="section-title">Message from the Director</h2>
+    <h2 class="section-title" data-i18n="about_dir_title">Message from the Director</h2>
     <div class="section-underline"></div>
     <div class="director-card">
       <blockquote>
@@ -751,64 +789,72 @@ body { background: var(--warm-white); }
       </div>
     </div>
 
-    <h2 class="section-title">Annual Reports</h2>
+    <h2 class="section-title" data-i18n="about_reports_t">Annual Reports</h2>
     <div class="section-underline"></div>
-    <p style="margin-bottom:16px; color:var(--text-light); font-size:0.95rem;">Download our annual reports to learn more about SRCT's journey, impact, and financial transparency.</p>
+    <p style="margin-bottom:16px; color:var(--text-light); font-size:0.95rem;" data-i18n="about_reports_p">Download our annual reports to learn more about SRCT's journey, impact, and financial transparency.</p>
     <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:40px;">
       <a href="Annual Reports/SRCT_Annual_Report_2025-2026.pdf" download class="btn-outline" style="display:inline-flex; align-items:center; gap:8px;">📄 Annual Report FY 2025-26</a>
       <a href="Annual Reports/SRCT_Annual_Report_2024-2025.pdf" download class="btn-outline" style="display:inline-flex; align-items:center; gap:8px;">📄 Annual Report FY 2024-25</a>
     </div>
 
-    <h2 class="section-title">Our Objectives</h2>
+    <h2 class="section-title" data-i18n="about_obj_title">Our Objectives</h2>
     <div class="section-underline"></div>
     <div class="objectives-grid">
-      <div class="objective-item"><div class="obj-num">1</div><p>Promote skill development for illiterate, newly literate, and school dropout populations.</p></div>
-      <div class="objective-item"><div class="obj-num">2</div><p>Address socio-economic challenges through education and awareness on health, environment, and human rights.</p></div>
-      <div class="objective-item"><div class="obj-num">3</div><p>Establish small-scale industries to enable economic independence for youth and women.</p></div>
-      <div class="objective-item"><div class="obj-num">4</div><p>Facilitate alternative employment opportunities through vocational trainings and workshops.</p></div>
+      <div class="objective-item"><div class="obj-num">1</div><p data-i18n="about_obj1">Promote skill development for illiterate, newly literate, and school dropout populations.</p></div>
+      <div class="objective-item"><div class="obj-num">2</div><p data-i18n="about_obj2">Address socio-economic challenges through education and awareness on health, environment, and human rights.</p></div>
+      <div class="objective-item"><div class="obj-num">3</div><p data-i18n="about_obj3">Establish small-scale industries to enable economic independence for youth and women.</p></div>
+      <div class="objective-item"><div class="obj-num">4</div><p data-i18n="about_obj4">Facilitate alternative employment opportunities through vocational trainings and workshops.</p></div>
     </div>
 
-    <h2 class="section-title">Our Team</h2>
+    <h2 class="section-title" data-i18n="about_team_t">Our Team</h2>
     <div class="section-underline"></div>
     <div class="team-grid">
       <div class="team-card">
         <img src="People/Pics/team_dipak.jpg" alt="Dipak Kumar Mallick" class="team-photo" />
-        <div class="team-info"><h4>Dipak Kumar Mallick</h4><span>Managing Director</span></div>
+        <div class="team-info"><h4>Dipak Kumar<br>Mallick</h4><span data-i18n="role_md">Managing Director</span></div>
       </div>
       <div class="team-card">
         <img src="People/Pics/Rajendra.jpeg" alt="Rajendra Metya" class="team-photo" />
-        <div class="team-info"><h4>Rajendra<br>Metya</h4><span>Treasurer</span></div>
+        <div class="team-info"><h4>Rajendra<br>Metya</h4><span data-i18n="role_treasurer">Treasurer</span></div>
       </div>
       <div class="team-card">
         <img src="People/Pics/Shilabati.jpeg" alt="Shilabati Mudi" class="team-photo" />
-        <div class="team-info"><h4>Shilabati Mudi</h4><span>Secretary</span></div>
+        <div class="team-info"><h4>Shilabati<br>Mudi</h4><span data-i18n="role_secretary">Secretary</span></div>
+      </div>
+      <div class="team-card">
+        <img src="People/Pics/Nirmal_Chandra_Hembram.jpg" alt="Nirmal Chandra Hembram" class="team-photo" />
+        <div class="team-info"><h4>Nirmal Chandra<br>Hembram</h4><span data-i18n="role_pm">Project Manager</span></div>
+      </div>
+      <div class="team-card">
+        <img src="People/Pics/Panmoni_Baskey_Kisku.jpg" alt="Panmoni Baskey Kisku" class="team-photo" />
+        <div class="team-info"><h4>Panmoni Baskey<br>Kisku</h4><span data-i18n="role_pc">Project Coordinator</span></div>
       </div>
       <div class="team-card">
         <img src="People/Pics/Dipen Mondal Clean.PNG" alt="Dipen Mandal" class="team-photo" />
-        <div class="team-info"><h4>Dipen Mandal</h4><span>Fund Manager<br>CSR</span></div>
+        <div class="team-info"><h4>Dipen<br>Mandal</h4><span data-i18n="role_fund">Fund Manager - CSR</span></div>
       </div>
       <div class="team-card">
         <img src="People/Pics/Subrata.jpg" alt="Subrata Mallick" class="team-photo" />
-        <div class="team-info"><h4>Subrata Mallick</h4><span>Volunteer<br>Administrative</span></div>
+        <div class="team-info"><h4>Subrata<br>Mallick</h4><span data-i18n="role_vol">Volunteer - Administrative</span></div>
       </div>
     </div>
 
-    <h2 class="section-title">Our Reach</h2>
+    <h2 class="section-title" data-i18n="about_reach_t">Our Reach</h2>
     <div class="section-underline"></div>
     <div class="future-note">
-      <h3>Current Focus: Khatra Subdivision, Bankura District</h3>
-      <p>Currently operating in the Khatra Subdivision of Bankura District, West Bengal, SRCT is actively working to expand its programs across West Bengal and eventually throughout India. By building infrastructure, imparting skills, and promoting self-reliance, SRCT aims to transform the lives of financially backward rural populations on a larger scale.</p>
-      <a href="#future" class="btn-primary">See Future Plans &rarr;</a>
+      <h3 data-i18n="about_reach_h">Current Focus: Khatra Subdivision, Bankura District</h3>
+      <p data-i18n="about_reach_p">Currently operating in the Khatra Subdivision of Bankura District, West Bengal, SRCT is actively working to expand its programs across West Bengal and eventually throughout India. By building infrastructure, imparting skills, and promoting self-reliance, SRCT aims to transform the lives of financially backward rural populations on a larger scale.</p>
+      <a href="#future" class="btn-primary" data-i18n="about_reach_btn">See Future Plans &rarr;</a>
     </div>
   </div>
 </section>
 
 <div class="cta-band">
-  <h2>Support Our Mission</h2>
-  <p>Help us reach more villages and empower more lives across rural West Bengal.</p>
+  <h2 data-i18n="about_cta">Support Our Mission</h2>
+  <p data-i18n="about_cta_sub">Help us reach more villages and empower more lives across rural West Bengal.</p>
   <div class="btns">
-    <a href="#activities" class="btn-outline-white">See What We Do</a>
-    <a href="#donate" class="btn-primary">Donate Now &rarr;</a>
+    <a href="#activities" class="btn-outline-white" data-i18n="about_cta_btn1">See What We Do</a>
+    <a href="#donate" class="btn-primary" data-i18n="about_cta_btn2">Donate Now &rarr;</a>
   </div>
 </div>
 </div>
@@ -1379,47 +1425,47 @@ body { background: var(--warm-white); }
 </div>
 <div class="page" id="page-donate">
 <div class="donate-hero">
-  <p style="font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;">Support SRCT</p>
-  <h1>Your Support Transforms Lives</h1>
-  <p>Every contribution directly empowers women, farmers, and youth in Bankura District, West Bengal.</p>
+  <p style="font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;" data-i18n="donate_label">Support SRCT</p>
+  <h1 data-i18n="donate_title">Your Support Transforms Lives</h1>
+  <p data-i18n="donate_subtitle">Every contribution directly empowers women, farmers, and youth in Bankura District, West Bengal.</p>
 </div>
 
 <section class="section">
   <div class="container">
 
-    <h2 class="section-title" style="text-align:center;">Choose How You'd Like to Help</h2>
+    <h2 class="section-title" style="text-align:center;" data-i18n="donate_choose">Choose How You'd Like to Help</h2>
     <div class="section-underline" style="margin:0 auto 40px;"></div>
 
     <div class="tiers-grid">
       <div class="tier-card">
         <div class="tier-icon">📚</div>
         <div class="tier-amount">₹500</div>
-        <h3>Training Materials</h3>
-        <p>Supplies for one woman in a skill development program.</p>
+        <h3 data-i18n="donate_t1">Training Materials</h3>
+        <p data-i18n="donate_d1">Supplies for one woman in a skill development program.</p>
       </div>
       <div class="tier-card">
         <div class="tier-icon">🏫</div>
         <div class="tier-amount">₹2,000</div>
-        <h3>Village Literacy Camp</h3>
-        <p>Supports a financial literacy camp in one village.</p>
+        <h3 data-i18n="donate_t2">Village Literacy Camp</h3>
+        <p data-i18n="donate_d2">Supports a financial literacy camp in one village.</p>
       </div>
       <div class="tier-card">
         <div class="tier-icon">🏭</div>
         <div class="tier-amount">₹5,000</div>
-        <h3>Micro-Enterprise Toolkit</h3>
-        <p>Equips a woman with tools to start her micro-enterprise.</p>
+        <h3 data-i18n="donate_t3">Micro-Enterprise Toolkit</h3>
+        <p data-i18n="donate_d3">Equips a woman with tools to start her micro-enterprise.</p>
       </div>
       <div class="tier-card">
         <div class="tier-icon">🌾</div>
         <div class="tier-amount">₹10,000</div>
-        <h3>Farmer Training Program</h3>
-        <p>Sponsors organic farming training for a group of farmers.</p>
+        <h3 data-i18n="donate_t4">Farmer Training Program</h3>
+        <p data-i18n="donate_d4">Sponsors organic farming training for a group of farmers.</p>
       </div>
       <div class="tier-card">
         <div class="tier-icon">💝</div>
-        <div class="tier-amount">Your Gift</div>
-        <h3>Custom Contribution</h3>
-        <p>Every rupee counts — contribute what you can.</p>
+        <div class="tier-amount" data-i18n="donate_a5">Your Gift</div>
+        <h3 data-i18n="donate_t5">Custom Contribution</h3>
+        <p data-i18n="donate_d5">Every rupee counts — contribute what you can.</p>
       </div>
     </div>
 
@@ -1432,7 +1478,7 @@ body { background: var(--warm-white); }
     </div>
 
     <div class="how-to-donate">
-      <h2>How to Donate</h2>
+      <h2 data-i18n="donate_how">How to Donate</h2>
       <div class="htd-underline"></div>
       <div class="how-grid">
         <a href="#contact" class="how-item" style="text-decoration:none;">
@@ -1488,8 +1534,8 @@ body { background: var(--warm-white); }
 <div class="page" id="page-contact">
 <div class="page-header">
   <p class="breadcrumb"><a href="#home">Home</a> &rsaquo; Contact</p>
-  <h1>Get in Touch</h1>
-  <p>Reach out to us for donations, CSR partnerships, volunteering, or any general inquiries.</p>
+  <h1 data-i18n="contact_title">Get in Touch</h1>
+  <p data-i18n="contact_subtitle">Reach out to us for donations, CSR partnerships, volunteering, or any general inquiries.</p>
 </div>
 
 <section class="section">
@@ -1522,7 +1568,7 @@ body { background: var(--warm-white); }
 
     <div class="contact-grid">
       <div class="contact-info">
-        <h3>Contact Details</h3>
+        <h3 data-i18n="contact_details_t">Contact Details</h3>
         <div class="contact-detail">
           <div class="contact-icon">📍</div>
           <div><strong>Registered Address</strong><span>Raidihi, Raipur, Bankura District<br>West Bengal – 722140, India</span></div>
@@ -1549,7 +1595,7 @@ body { background: var(--warm-white); }
       </div>
 
       <div class="contact-form">
-        <h3>Send Us a Message</h3>
+        <h3 data-i18n="contact_form_t">Send Us a Message</h3>
         <form id="contactForm" onsubmit="submitForm(event)">
           <div class="form-row">
             <div class="form-group">
@@ -1591,7 +1637,7 @@ body { background: var(--warm-white); }
             <label for="message">Message *</label>
             <textarea id="message" name="message" placeholder="How can we help you, or how would you like to support SRCT?" required></textarea>
           </div>
-          <button type="submit" class="btn-submit" id="submitBtn">Send Message</button>
+          <button type="submit" class="btn-submit" id="submitBtn" data-i18n="contact_submit">Send Message</button>
           <div class="form-success" id="formSuccess">
             ✓ Thank you! Your message has been received. We will get back to you within 1–2 business days.
             <br><button type="button" onclick="resetForm()" style="margin-top:12px;padding:8px 20px;background:var(--teal);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px;">Send Another Message</button>
@@ -1666,18 +1712,29 @@ body { background: var(--warm-white); }
 </div>
 
 <div class="copied-toast" id="copiedToast">UPI ID copied!</div>
+
+<!-- Language Switcher -->
+<div class="lang-switcher" id="langSwitcher">
+  <div class="lang-options">
+    <div class="lang-option active" data-lang="en"><span class="lang-label">English</span><span class="lang-check">✓</span></div>
+    <div class="lang-option" data-lang="bn"><span class="lang-label">বাংলা</span><span class="lang-check">✓</span></div>
+    <div class="lang-option" data-lang="hi"><span class="lang-label">हिंदी</span><span class="lang-check">✓</span></div>
+  </div>
+  <div class="lang-toggle" onclick="toggleLangMenu()"><span class="globe">🌐</span><span id="langCurrent">EN</span></div>
+</div>
+
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
       <img src="Logo/Logo.png" alt="SRCT Logo" class="nav-logo-img" />
-      <p>Shilu Rekha Charitable Trust (SRCT) empowers rural communities in Bankura District through skill development, sustainable agriculture, women empowerment, and financial literacy.</p>
+      <p data-i18n="footer_desc">Shilu Rekha Charitable Trust (SRCT) empowers rural communities in Bankura District through skill development, sustainable agriculture, women empowerment, and financial literacy.</p>
       <div class="footer-reg-badges">
         <span class="reg-badge">MSME</span><span class="reg-badge">NITI Aayog</span>
         <span class="reg-badge">12A &amp; 80G</span><span class="reg-badge">CSR1</span><span class="reg-badge">Est. 2020</span>
       </div>
     </div>
     <div class="footer-links">
-      <h4>Quick Links</h4>
+      <h4 data-i18n="footer_links_t">Quick Links</h4>
       <ul>
         <li><a href="#home">Home</a></li>
         <li><a href="#about">About Us</a></li>
@@ -1690,7 +1747,7 @@ body { background: var(--warm-white); }
       </ul>
     </div>
     <div class="footer-contact">
-      <h4>Contact</h4>
+      <h4 data-i18n="footer_contact_t">Contact</h4>
       <p>Raidihi, Raipur<br>Bankura, WB &ndash; 722140</p>
       <p>+91 9051016341<br>+91 9434978025</p>
     </div>
@@ -1817,6 +1874,132 @@ function copyUPI(el){
     t.style.display='block';setTimeout(()=>t.style.display='none',2000);
   });
 }
+
+// ── LANGUAGE SWITCHER ──────────────────────────────────────────────────────
+let currentLang = localStorage.getItem('srct_lang') || 'en';
+
+function toggleLangMenu() {
+  document.getElementById('langSwitcher').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  const sw = document.getElementById('langSwitcher');
+  if (!sw.contains(e.target)) sw.classList.remove('open');
+});
+document.querySelectorAll('.lang-option').forEach(opt => {
+  opt.addEventListener('click', function() {
+    setLang(this.dataset.lang);
+    document.getElementById('langSwitcher').classList.remove('open');
+  });
+});
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('srct_lang', lang);
+  document.documentElement.lang = lang === 'bn' ? 'bn' : lang === 'hi' ? 'hi' : 'en';
+  document.getElementById('langCurrent').textContent = lang === 'bn' ? 'বাং' : lang === 'hi' ? 'हिं' : 'EN';
+  document.querySelectorAll('.lang-option').forEach(o => {
+    o.classList.toggle('active', o.dataset.lang === lang);
+  });
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (T[lang] && T[lang][key]) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        el.placeholder = T[lang][key];
+      } else if (el.tagName === 'OPTION') {
+        el.textContent = T[lang][key];
+      } else {
+        el.innerHTML = T[lang][key];
+      }
+    }
+  });
+}
+
+// Apply saved language on load
+document.addEventListener('DOMContentLoaded', function() { if (currentLang !== 'en') setLang(currentLang); });
+
+// Translation dictionary
+const T = {
+en: {
+nav_home:"Home",nav_about:"About",nav_work:"Our Work",nav_projects:"Projects",nav_future:"Future Plans",nav_financials:"Financials",nav_contact:"Contact",nav_donate:"Donate",
+hero_org:"Shilu Rekha Charitable Trust &nbsp;&middot;&nbsp; Est. 2020 &nbsp;&middot;&nbsp; Bankura, West Bengal",
+hero_title:"Empowering Rural Communities,<br><span>One Life at a Time</span>",
+hero_subtitle:"SRCT works with women, farmers, and youth in Bankura District to build sustainable livelihoods through skill development, vocational training, and community empowerment.",
+hero_learn:"Learn More",hero_donate:"Donate Now &rarr;",
+hero_quote:"“From Challenges to Change, Together We Rise, One Step at a Time”",
+hero_cite:"— Dipak Kumar Mallick, Managing Director, SRCT",
+impact_women:"Women Empowered",impact_farmers:"Farmers Trained",impact_villages:"Villages Reached",impact_camps:"Literacy Camps",impact_lives:"Lives Touched",impact_blocks:"Blocks in Bankura",
+qnav_explore:"Explore",qnav_about:"About Us",qnav_work:"Our Work",qnav_projects:"Projects",qnav_financials:"Financials",qnav_contact:"Contact",qnav_donate:"Donate",
+home_what:"What SRCT Does",home_what_sub:"From sustainable farming to women’s micro-enterprises, SRCT creates lasting change across Bankura District.",
+home_women_title:"Women Empowerment",home_women_desc:"300+ rural women trained in micro-enterprises — phenyl, incense sticks, soap powder, and eco-friendly products — earning ₹2,500–3,000/month.",
+home_agri_title:"Sustainable Agriculture",home_agri_desc:"500+ farmers trained in organic farming, vermicomposting, and bio-fertilizer production in collaboration with the WB Dept. of Horticulture.",
+home_lit_title:"Financial Literacy",home_lit_desc:"40 digital literacy camps across 40 villages in Bankura District, reaching 1,580 rural residents with knowledge on savings, banking, and fraud prevention.",
+home_learn:"Learn More &rarr;",home_view:"View Projects &rarr;",
+cta1_title:"Ready to Make a Difference?",cta1_sub:"Your contribution directly empowers women, farmers, and youth in Bankura District.",cta1_btn1:"See Our Work",cta1_btn2:"Support SRCT &rarr;",
+about_title:"About Shilu Rekha Charitable Trust",about_subtitle:"A nationally accredited NGO dedicated to empowering rural communities in Bankura District, West Bengal, since 2020.",
+about_mission_sec:"Our Mission &amp; Recognition",about_mission_t:"Our Mission",about_mission_p:"SRCT is dedicated to empowering rural communities, particularly women and underserved groups, by providing vocational training, sustainable livelihood opportunities, and access to essential resources.",about_vision_t:"Our Vision",about_vision_p:"To foster self-reliance and improve the quality of life in marginalized communities of Bankura District and eventually across India.",
+about_accred_t:"Accreditations &amp; Recognition",about_accred1:"Registered under Ministry of MSME, Govt. of India",about_accred2:"Registered with NITI Aayog",about_accred3:"Approved under Income Tax Act — Section 12A &amp; 80G",about_accred4:"CSR1 registered — eligible for CSR funding",about_accred5:"Recognized by Government of West Bengal",about_accred6:"National SC/ST Hub partner",
+about_dir_title:"Message from the Director",about_reports_t:"Annual Reports",about_reports_p:"Download our annual reports to learn more about SRCT's journey, impact, and financial transparency.",about_report1:"📄 Annual Report FY 2025-26",about_report2:"📄 Annual Report FY 2024-25",
+about_obj_title:"Our Objectives",about_obj1:"Promote skill development for illiterate, newly literate, and school dropout populations.",about_obj2:"Address socio-economic challenges through education and awareness on health, environment, and human rights.",about_obj3:"Establish small-scale industries to enable economic independence for youth and women.",about_obj4:"Facilitate alternative employment opportunities through vocational trainings and workshops.",
+about_team_t:"Our Team",about_reach_t:"Our Reach",about_reach_h:"Current Focus: Khatra Subdivision, Bankura District",about_reach_p:"Currently operating in the Khatra Subdivision of Bankura District, West Bengal, SRCT is actively working to expand its programs across West Bengal and eventually throughout India. By building infrastructure, imparting skills, and promoting self-reliance, SRCT aims to transform the lives of financially backward rural populations on a larger scale.",about_reach_btn:"See Future Plans &rarr;",
+about_cta:"Support Our Mission",about_cta_sub:"Help us reach more villages and empower more lives across rural West Bengal.",about_cta_btn1:"See What We Do",about_cta_btn2:"Donate Now &rarr;",
+role_md:"Managing Director",role_treasurer:"Treasurer",role_secretary:"Secretary",role_pm:"Project Manager",role_pc:"Project Coordinator",role_fund:"Fund Manager<br>CSR",role_vol:"Volunteer<br>Administrative"
+},
+bn: {
+nav_home:"হোম",nav_about:"আমাদের সম্পর্কে",nav_work:"আমাদের কাজ",nav_projects:"প্রকল্প",nav_future:"ভবিষ্যৎ পরিকল্পনা",nav_financials:"আর্থিক",nav_contact:"যোগাযোগ",nav_donate:"দান করুন",
+hero_org:"Shilu Rekha Charitable Trust &nbsp;&middot;&nbsp; প্রতিষ্ঠা ২০২০ &nbsp;&middot;&nbsp; বাঁকুড়া, পশ্চিমবঙ্গ",
+hero_title:"গ্রামীণ জনগোষ্ঠীর ক্ষমতায়ন,<br><span>একটি জীবন একটি পরিবর্তন</span>",
+hero_subtitle:"SRCT বাঁকুড়া জেলার নারী, কৃষক এবং যুবদের সাথে কাজ করে দক্ষতা উন্নয়ন, বৃত্তিমূলক প্রশিক্ষণ এবং সম্প্রদায়ের ক্ষমতায়নের মাধ্যমে টেকসই জীবিকা গড়ে তোলে।",
+hero_learn:"আরও জানুন",hero_donate:"দান করুন &rarr;",
+hero_quote:"“চ্যালেন্জ থেকে পরিবর্তন, একসাথে উঠি, এক পা এক পা”",
+hero_cite:"— Dipak Kumar Mallick, পরিচালনা সম্পাদক, SRCT",
+impact_women:"নারী ক্ষমতায়িত",impact_farmers:"কৃষক প্রশিক্ষিত",impact_villages:"গ্রামে পৌঁছেছে",impact_camps:"সাক্ষরতা শিবির",impact_lives:"জীবন স্পর্শ",impact_blocks:"বাঁকুড়ার ব্লক",
+qnav_explore:"অন্বেষণ",qnav_about:"আমাদের সম্পর্কে",qnav_work:"আমাদের কাজ",qnav_projects:"প্রকল্প",qnav_financials:"আর্থিক",qnav_contact:"যোগাযোগ",qnav_donate:"দান",
+home_what:"SRCT কী করে",home_what_sub:"টেকসই কৃষি থেকে নারীদের ক্ষুদ্র উদ্যোগ পর্যন্ত, SRCT বাঁকুড়া জেলায় স্থায়ী পরিবর্তন আনে।",
+home_women_title:"নারী ক্ষমতায়ন",home_women_desc:"৩০০+ গ্রামীণ মহিলাদের ক্ষুদ্র উদ্যোগে প্রশিক্ষিত — ফিনাইল, অগরবাতি, সাবান পাউডার এবং পরিবেশবান্ধব পণ্য — মাসিক আয় ₹২,৫০০–৩,০০০।",
+home_agri_title:"টেকসই কৃষি",home_agri_desc:"৫০০+ কৃষকদের জৈব চাষ, ভার্মিকম্পোস্ট এবং জৈব-সার উৎপাদনে প্রশিক্ষিত, WB উদ্যানপালন দপ্তরের সহযোগিতায়।",
+home_lit_title:"আর্থিক সাক্ষরতা",home_lit_desc:"বাঁকুড়া জেলার ৪০টি গ্রামে ৪০টি ডিজিটাল সাক্ষরতা শিবির, ১,৫৮০ জন গ্রামীণ বাসিন্দাদের সঞ্চয়, ব্যাংকিং এবং জালিয়াতি প্রতিরোধ সম্পর্কে জ্নান দেওয়া হয়েছে।",
+home_learn:"আরও জানুন &rarr;",home_view:"প্রকল্প দেখুন &rarr;",
+cta1_title:"পরিবর্তন আনতে প্রস্তুত?",cta1_sub:"আপনার অবদান সরাসরি বাঁকুড়ার নারী, কৃষক এবং যুবদের ক্ষমতায়ন করে।",cta1_btn1:"আমাদের কাজ দেখুন",cta1_btn2:"SRCT সমর্থন করুন &rarr;"
+},
+hi: {
+nav_home:"होम",nav_about:"हमारे बारे में",nav_work:"हमारा काम",nav_projects:"परियोजनाएँ",nav_future:"भविष्य योजनाएँ",nav_financials:"वित्तीय",nav_contact:"संपर्क",nav_donate:"दान करें",
+hero_org:"Shilu Rekha Charitable Trust &nbsp;&middot;&nbsp; स्थापना २०२० &nbsp;&middot;&nbsp; बाँकुड़ा, पश्चिम बंगाल",
+hero_title:"ग्रामीण समुदायों का सशक्तिकरण,<br><span>एक जीवन एक परिवर्तन</span>",
+hero_subtitle:"SRCT बाँकुड़ा जिले की महिलाओं, किसानों और युवाओं के साथ कौशल विकास, व्यावसायिक प्रशिक्षण और सामुदायिक सशक्तिकरण के माध्यम से टिकाऊ आजीविका निर्माण करता है।",
+hero_learn:"और जानें",hero_donate:"दान करें &rarr;",
+hero_quote:"“चुनौतियों से परिवर्तन, साथ मिलकर उठें, एक कदम एक कदम”",
+hero_cite:"— Dipak Kumar Mallick, प्रबंध निदेशक, SRCT",
+impact_women:"महिलाएँ सशक्त",impact_farmers:"किसान प्रशिक्षित",impact_villages:"गाँवों में पहुँच",impact_camps:"साक्षरता शिविर",impact_lives:"जीवन स्पर्श",impact_blocks:"बाँकुड़ा के ब्लॉक",
+qnav_explore:"खोजें",qnav_about:"हमारे बारे में",qnav_work:"हमारा काम",qnav_projects:"परियोजनाएँ",qnav_financials:"वित्तीय",qnav_contact:"संपर्क",qnav_donate:"दान",
+home_what:"SRCT क्या करता है",home_what_sub:"टिकाऊ खेती से महिलाओं के सूक्ष्म उद्यम तक, SRCT बाँकुड़ा जिले में स्थायी परिवर्तन लाता है।",
+home_women_title:"महिला सशक्तिकरण",home_women_desc:"३००+ ग्रामीण महिलाओं को सूक्ष्म उद्यमों में प्रशिक्षित — फिनाइल, अगरबत्ती, साबुन पाउडर और इको-फ्रेंडली उत्पाद — मासिक आय ₹२,५००–३,०००।",
+home_agri_title:"टिकाऊ कृषि",home_agri_desc:"५००+ किसानों को जैविक खेती, वर्मीकम्पोस्ट और जैव-उर्वरक उत्पादन में प्रशिक्षित, WB उद्यानपालन विभाग के सहयोग से।",
+home_lit_title:"वित्तीय साक्षरता",home_lit_desc:"बाँकुड़ा जिले के ।० गाँवों में ।० डिजिटल साक्षरता शिविर, १,५८० ग्रामीण निवासियों को बचत, बैंकिंग और धोखाधड़ी रोकथाम का ज्ञान दिया गया।",
+home_learn:"और जानें &rarr;",home_view:"परियोजनाएँ देखें &rarr;",
+cta1_title:"परिवर्तन लाने को तैयार?",cta1_sub:"आपका योगदान सीधे बाँकुड़ा की महिलाओं, किसानों और युवाओं को सशक्त करता है।",cta1_btn1:"हमारा काम देखें",cta1_btn2:"SRCT का समर्थन करें &rarr;"
+}
+};
+
+// ── ABOUT PAGE TRANSLATIONS (append to T) ──
+T.en.about_title="About Shilu Rekha Charitable Trust";T.en.about_subtitle="A nationally accredited NGO dedicated to empowering rural communities in Bankura District, West Bengal, since 2020.";T.en.about_mission_sec="Our Mission &amp; Recognition";T.en.about_mission_t="Our Mission";T.en.about_mission_p="SRCT is dedicated to empowering rural communities, particularly women and underserved groups, by providing vocational training, sustainable livelihood opportunities, and access to essential resources.";T.en.about_vision_t="Our Vision";T.en.about_vision_p="To foster self-reliance and improve the quality of life in marginalized communities of Bankura District and eventually across India.";T.en.about_accred_t="Accreditations &amp; Recognition";T.en.about_accred1="Registered under Ministry of MSME, Govt. of India";T.en.about_accred2="Registered with NITI Aayog";T.en.about_accred3="Approved under Income Tax Act — Section 12A &amp; 80G";T.en.about_accred4="CSR1 registered — eligible for CSR funding";T.en.about_accred5="Recognized by Government of West Bengal";T.en.about_accred6="National SC/ST Hub partner";T.en.about_dir_title="Message from the Director";T.en.about_reports_t="Annual Reports";T.en.about_reports_p="Download our annual reports to learn more about SRCT's journey, impact, and financial transparency.";T.en.about_report1="\u{1F4C4} Annual Report FY 2025-26";T.en.about_report2="\u{1F4C4} Annual Report FY 2024-25";T.en.about_obj_title="Our Objectives";T.en.about_obj1="Promote skill development for illiterate, newly literate, and school dropout populations.";T.en.about_obj2="Address socio-economic challenges through education and awareness on health, environment, and human rights.";T.en.about_obj3="Establish small-scale industries to enable economic independence for youth and women.";T.en.about_obj4="Facilitate alternative employment opportunities through vocational trainings and workshops.";T.en.about_team_t="Our Team";T.en.about_reach_t="Our Reach";T.en.about_reach_h="Current Focus: Khatra Subdivision, Bankura District";T.en.about_reach_p="Currently operating in the Khatra Subdivision of Bankura District, West Bengal, SRCT is actively working to expand its programs across West Bengal and eventually throughout India.";T.en.about_reach_btn="See Future Plans &rarr;";T.en.about_cta="Support Our Mission";T.en.about_cta_sub="Help us reach more villages and empower more lives across rural West Bengal.";T.en.about_cta_btn1="See What We Do";T.en.about_cta_btn2="Donate Now &rarr;";T.en.role_md="Managing Director";T.en.role_treasurer="Treasurer";T.en.role_secretary="Secretary";T.en.role_pm="Project Manager";T.en.role_pc="Project Coordinator";T.en.role_fund="Fund Manager<br>CSR";T.en.role_vol="Volunteer<br>Administrative";
+
+T.bn.about_title="Shilu Rekha Charitable Trust সম্পর্কে";T.bn.about_subtitle="২০২০ সাল থেকে বাঁকুড়া জেলার গ্রামীণ সম্প্রদায়ের ক্ষমতায়নে নিবেদিত একটি জাতীয়ভাবে স্বীকৃত এনজিও।";T.bn.about_mission_sec="আমাদের লক্ষ্য ও স্বীকৃতি";T.bn.about_mission_t="আমাদের লক্ষ্য";T.bn.about_mission_p="SRCT গ্রামীণ সম্প্রদায়, বিশেষত মহিলা এবং অনগ্রসর গোষ্ঠীদের বৃত্তিমূলক প্রশিক্ষণ, টেকসই জীবিকার সুযোগ এবং প্রয়োজনীয় সম্পদে প্রবেশাধিকার প্রদানের মাধ্যমে ক্ষমতায়নে নিবেদিত।";T.bn.about_vision_t="আমাদের দৃষ্টিভঙ্গি";T.bn.about_vision_p="বাঁকুড়া জেলা এবং শেষ পর্যন্ত সমগ্র ভারতের প্রান্তিক সম্প্রদায়ের জীবনযাত্রার মান উন্নত করা এবং আত্মনির্ভরতা গড়ে তোলা।";T.bn.about_accred_t="স্বীকৃতি ও সনদপত্র";T.bn.about_accred1="MSME মন্ত্রক, ভারত সরকারের অধীনে নিবন্ধিত";T.bn.about_accred2="NITI Aayog-এ নিবন্ধিত";T.bn.about_accred3="আয়কর আইন — ধারা 12A ও 80G অনুমোদিত";T.bn.about_accred4="CSR1 নিবন্ধিত — CSR তহবিলের যোগ্য";T.bn.about_accred5="পশ্চিমবঙ্গ সরকার কর্তৃক স্বীকৃত";T.bn.about_accred6="National SC/ST Hub অংশীদার";T.bn.about_dir_title="পরিচালকের বার্তা";T.bn.about_reports_t="বার্ষিক প্রতিবেদন";T.bn.about_reports_p="SRCT-র যাত্রা, প্রভাব এবং আর্থিক স্বচ্ছতা সম্পর্কে জানতে আমাদের বার্ষিক প্রতিবেদন ডাউনলোড করুন।";T.bn.about_report1="\u{1F4C4} বার্ষিক প্রতিবেদন ২০২৫-২৬";T.bn.about_report2="\u{1F4C4} বার্ষিক প্রতিবেদন ২০২৪-২৫";T.bn.about_obj_title="আমাদের উদ্দেশ্য";T.bn.about_obj1="নিরক্ষর, নব সাক্ষর এবং স্কুল ছুটদের দক্ষতা উন্নয়ন প্রচার করা।";T.bn.about_obj2="স্বাস্থ্য, পরিবেশ ও মানবাধিকার বিষয়ে শিক্ষা ও সচেতনতার মাধ্যমে আর্থ-সামাজিক চ্যালেঞ্জ মোকাবেলা করা।";T.bn.about_obj3="যুবক ও মহিলাদের অর্থনৈতিক স্বাধীনতার জন্য ক্ষুদ্র শিল্প স্থাপন করা।";T.bn.about_obj4="বৃত্তিমূলক প্রশিক্ষণ ও কর্মশালার মাধ্যমে বিকল্প কর্মসংস্থানের সুযোগ সৃষ্টি করা।";T.bn.about_team_t="আমাদের দল";T.bn.about_reach_t="আমাদের পরিধি";T.bn.about_reach_h="বর্তমান কেন্দ্র: খাতরা মহকুমা, বাঁকুড়া জেলা";T.bn.about_reach_p="বর্তমানে বাঁকুড়া জেলার খাতরা মহকুমায় কাজ করছে, SRCT সক্রিয়ভাবে তার কার্যক্রম সমগ্র পশ্চিমবঙ্গ এবং সমগ্র ভারতে প্রসারিত করতে কাজ করছে।";T.bn.about_reach_btn="ভবিষ্যৎ পরিকল্পনা দেখুন &rarr;";T.bn.about_cta="আমাদের লক্ষ্যে সহায়তা করুন";T.bn.about_cta_sub="আরও গ্রামে পৌঁছাতে এবং পশ্চিমবঙ্গে আরও জীবন ক্ষমতায়নে আমাদের সাহায্য করুন।";T.bn.about_cta_btn1="আমরা কী করি দেখুন";T.bn.about_cta_btn2="দান করুন &rarr;";T.bn.role_md="পরিচালনা সম্পাদক";T.bn.role_treasurer="কোষাধ্যক্ষ";T.bn.role_secretary="সম্পাদক";T.bn.role_pm="প্রকল্প ব্যবস্থাপক";T.bn.role_pc="প্রকল্প সমন্বয়ক";T.bn.role_fund="তহবিল ব্যবস্থাপক<br>CSR";T.bn.role_vol="স্বেচ্ছাসেবক<br>প্রশাসনিক";
+
+T.hi.about_title="Shilu Rekha Charitable Trust के बारे में";T.hi.about_subtitle="२०२० से बाँकुड़ा जिले के ग्রामीण समुदायों को सशक्ত कরনे में সमর्পিত एक রाষ्রीয স्তর পর माন्যতा প्রाপ्ত NGO।";T.hi.about_mission_sec="हमारा लक्ষ्য औর माন्যতा";T.hi.about_mission_t="हमाরा लक्ষ्য";T.hi.about_mission_p="SRCT ग्রामीण সमुদाযों, বিশेষ রূপ সे महিলाओं औর বंচিত সमূহों को ব্যাবসাযিक প्রশিक्ষণ, টিकाऊ आजीবিका औর आবশ्যक সंসाধনों তक পহুँচ প्রদाন कরके সশक्ত कরনे में সमর्পিত हৈ।";T.hi.about_vision_t="हमाরी দৃষ्টি";T.hi.about_vision_p="बाँकुড়ा जিলे औর अंততः পূরे ভाরত के হाশিযे সमुদाযों में आত्मনির्ভরতा बঢ়ाনा औর जीবন स्তর মें সুধाর लाনा।";T.hi.about_accred_t="माন्যতा औর প्রमाণ পত्র";T.hi.about_accred1="MSME मंত्রाলয, ভाরত সরकाর के अধीন পंजीकৃত";T.hi.about_accred2="NITI Aayog में পंजीकৃত";T.hi.about_accred3="आযकর अধিনিযम — ধाরा 12A औর 80G अনুमोদিত";T.hi.about_accred4="CSR1 পंजीकৃত — CSR ফंডিंग के যोग्য";T.hi.about_accred5="পশ्চিम বंगाল সরकाর দ्বाরा माন्যতा প्রाপ्ত";T.hi.about_accred6="National SC/ST Hub ভागीদाর";T.hi.about_dir_title="নিদेশक का সंদेশ";T.hi.about_reports_t="বाর्ষিक রিপोর्ট";T.hi.about_reports_p="SRCT की যाত्রा, প्রভाব औর বিত्তीয পाরদর्শিতा के বाরे में जाননे के লিए হमाরी বाর्ষিक রিপोর्ট ডाउনলोড कরें।";T.hi.about_report1="\u{1F4C4} বाর्ষিक রিপोর्ট २०२५-२६";T.hi.about_report2="\u{1F4C4} বाর्ষিক রিপोর्ট २०२४-२५";T.hi.about_obj_title="हमाরे उদ्দेশ्য";T.hi.about_obj1="নিরक्ষর, নব সाक्ষর औর স्কূল ছोড়ने বाলों के লিए कৌশল বিकाস को বঢ়ाবा দेনा।";T.hi.about_obj2="স्বाস्থ्য, পর्যाবরণ औর माনবाধিकाর পর শিक्ষा औর जागরূकতा के माধ्যम সे সामाजিक-आর्থিক চুনৌতিযों का সमाধाন कরনा।";T.hi.about_obj3="যুবाओं औর मহিলाओं की आর्থিक স्বতंত्রতा के লিए লघু उদ्যोग স्থाপিত कরনा।";T.hi.about_obj4="ব্যাবসाযিक প्রশিक्ষণ औর काর्যশाলाओं के माধ्যम সे বিकল्প রोजगाর के अবসর প्রদाন कরনा।";T.hi.about_team_t="हमाরी টीम";T.hi.about_reach_t="हमाরी পহুँচ";T.hi.about_reach_h="বর्তमाন केंদ्র: খाতরा मহकুमा, बाँकুড়ा जিলा";T.hi.about_reach_p="বর्তमाন में बाँकুড়ा जিলे के খाতরा मহकুमा में काর्যরত, SRCT সक्রিয রূপ সे अপনे काর्যक्রमों को পূরे পশ्চিम বंगाল औর ভाরত में ফৈলाনे का काর्য कর রহा হৈ।";T.hi.about_reach_btn="ভবিষ्য যोजনाएँ দेখें &rarr;";T.hi.about_cta="हमाরे লक्ষ्য में সহযोग कরें";T.hi.about_cta_sub="औর गाँবों তक পহুँচনे औর পশ्চিम বंगाল में औর जीবন সশक्ত कরনे में হमाরी মদদ कরें।";T.hi.about_cta_btn1="হम क्যा कরতे হৈं দेখें";T.hi.about_cta_btn2="দाন कরें &rarr;";T.hi.role_md="প्রবंধ নিদेশक";T.hi.role_treasurer="कोষाধ्যक्ষ";T.hi.role_secretary="সচিব";T.hi.role_pm="পরিযोजনा প्রবंধक";T.hi.role_pc="পরিযोजনा সमন्বযक";T.hi.role_fund="कोষ প्রবंধक<br>CSR";T.hi.role_vol="স्বযंসेবक<br>প्রশाসনিक";
+// ── FOOTER TRANSLATIONS ──
+T.en.footer_desc="Shilu Rekha Charitable Trust (SRCT) empowers rural communities in Bankura District through skill development, sustainable agriculture, women empowerment, and financial literacy.";T.en.footer_links_t="Quick Links";T.en.footer_contact_t="Contact";
+T.bn.footer_desc="Shilu Rekha Charitable Trust (SRCT) বাঁকুড়া জেলায় দক্ষতা উন্নয়ন, টেকসই কৃষি, নারী ক্ষমতায়ন এবং আর্থিক সাক্ষরতার মাধ্যমে গ্রামীণ সম্প্রদায়ের ক্ষমতায়ন করে।";T.bn.footer_links_t="দ্রুত লিংক";T.bn.footer_contact_t="যোগাযোগ";
+T.hi.footer_desc="Shilu Rekha Charitable Trust (SRCT) कौशल विकास, टिकाऊ कृषि, महिला सशक्तिकरण और वित्तीय साक्षरता के माध्यम से बाँकुड़ा जिले के ग्रामीण समुदायों को सशक्त करता है।";T.hi.footer_links_t="त्वरित लिंक";T.hi.footer_contact_t="संपर्क";
+
+// ── DONATE PAGE TRANSLATIONS ──
+T.en.donate_label="Support SRCT";T.en.donate_title="Your Support Transforms Lives";T.en.donate_subtitle="Every contribution directly empowers women, farmers, and youth in Bankura District, West Bengal.";T.en.donate_choose="Choose How You'd Like to Help";T.en.donate_t1="Training Materials";T.en.donate_d1="Supplies for one woman in a skill development program.";T.en.donate_t2="Village Literacy Camp";T.en.donate_d2="Supports a financial literacy camp in one village.";T.en.donate_t3="Micro-Enterprise Toolkit";T.en.donate_d3="Equips a woman with tools to start her micro-enterprise.";T.en.donate_t4="Farmer Training Program";T.en.donate_d4="Sponsors organic farming training for a group of farmers.";T.en.donate_t5="Custom Contribution";T.en.donate_d5="Every rupee counts — contribute what you can.";T.en.donate_a5="Your Gift";T.en.donate_how="How to Donate";T.en.donate_bank_t="Bank Transfer";T.en.donate_bank_d="Transfer directly to our bank account. Contact us to receive the account details securely.";T.en.donate_bank_btn="Get Bank Details &rarr;";T.en.donate_upi_t="UPI / Online";T.en.donate_upi_d="Pay instantly via PhonePe, GPay, Paytm, or BHIM. Click to open the QR scanner page.";T.en.donate_upi_btn="Scan QR &rarr;";T.en.donate_csr_t="CSR Partnership";T.en.donate_csr_d="Companies can fund specific projects under their CSR obligations. SRCT is CSR1 registered and eligible under Companies Act 2013.";T.en.donate_csr_btn="Discuss Partnership &rarr;";
+T.bn.donate_label="SRCT সমর্থন করুন";T.bn.donate_title="আপনার সহায়তা জীবন বদলায়";T.bn.donate_subtitle="প্রতিটি অবদান সরাসরি বাঁকুড়া জেলার মহিলা, কৃষক এবং যুবদের ক্ষমতায়ন করে।";T.bn.donate_choose="আপনি কীভাবে সাহায্য করতে চান?";T.bn.donate_t1="প্রশিক্ষণ সামগ্রী";T.bn.donate_d1="একজন মহিলার দক্ষতা উন্নয়ন কর্মসূচির জন্য সরবরাহ।";T.bn.donate_t2="গ্রাম সাক্ষরতা শিবির";T.bn.donate_d2="একটি গ্রামে আর্থিক সাক্ষরতা শিবির সমর্থন করে।";T.bn.donate_t3="ক্ষুদ্র উদ্যোগ টুলকিট";T.bn.donate_d3="একজন মহিলাকে তার ক্ষুদ্র উদ্যোগ শুরু করার সরঞ্জাম দেয়।";T.bn.donate_t4="কৃষক প্রশিক্ষণ কার্যক্রম";T.bn.donate_d4="কৃষকদের একটি দলের জন্য জৈব কৃষি প্রশিক্ষণে সহায়তা করে।";T.bn.donate_t5="নিজের ইচ্ছানুসারে";T.bn.donate_d5="প্রতিটি টাকাই গুরুত্বপূর্ণ — আপনি যা পারেন দান করুন।";T.bn.donate_a5="আপনার উপহার";T.bn.donate_how="কীভাবে দান করবেন";T.bn.donate_bank_t="ব্যাংক ট্রান্সফার";T.bn.donate_bank_d="সরাসরি আমাদের ব্যাংক অ্যাকাউন্টে ট্রান্সফার করুন। বিবরণের জন্য আমাদের সাথে যোগাযোগ করুন।";T.bn.donate_bank_btn="ব্যাংক বিবরণ পান &rarr;";T.bn.donate_upi_t="UPI / অনলাইন";T.bn.donate_upi_d="PhonePe, GPay, Paytm বা BHIM-এর মাধ্যমে তাৎক্ষণিক পেমেন্ট। QR স্ক্যানার পেজ খুলতে ক্লিক করুন।";T.bn.donate_upi_btn="QR স্ক্যান করুন &rarr;";T.bn.donate_csr_t="CSR অংশীদারিত্ব";T.bn.donate_csr_d="কোম্পানিগুলি তাদের CSR বাধ্যবাধকতার অধীনে নির্দিষ্ট প্রকল্পে অর্থায়ন করতে পারে।";T.bn.donate_csr_btn="অংশীদারিত্ব আলোচনা &rarr;";
+T.hi.donate_label="SRCT का समर्थन करें";T.hi.donate_title="आपका सहयोग जीवन बदलता है";T.hi.donate_subtitle="हर योगदान सीधे बाँकुड़ा जिले की महिलाओं, किसानों और युवाओं को सशक्त करता है।";T.hi.donate_choose="आप कैसे मदद करना चाहेंगे?";T.hi.donate_t1="प्रशिक्षण सामग्री";T.hi.donate_d1="एक महिला के कौशल विकास कार्यक्रम के लिए आपूर्ति।";T.hi.donate_t2="गाँव साक्षरता शिविर";T.hi.donate_d2="एक गाँव में वित्तीय साक्षरता शिविर का समर्थन करता है।";T.hi.donate_t3="सूक्ष्म-उद्यम टूलकिट";T.hi.donate_d3="एक महिला को अपना सूक्ष्म उद्यम शुरू करने के उपकरण देता है।";T.hi.donate_t4="किसान प्रशिक्षण कार्यक्रम";T.hi.donate_d4="किसानों के एक समूह के लिए जैविक खेती प्रशिक्षण प्रायोजित करता है।";T.hi.donate_t5="अपनी इच्छानुसार";T.hi.donate_d5="हर रुपया मायने रखता है — जो दे सकें वो दें।";T.hi.donate_a5="आपका उपहार";T.hi.donate_how="कैसे दान करें";T.hi.donate_bank_t="बैंक ट्रांसफर";T.hi.donate_bank_d="सीधे हमारे बैंक खाते में ट्रांसफर करें। विवरण के लिए हमसे संपर्क करें।";T.hi.donate_bank_btn="बैंक विवरण प्राप्त करें &rarr;";T.hi.donate_upi_t="UPI / ऑनलाइन";T.hi.donate_upi_d="PhonePe, GPay, Paytm या BHIM से तुरंत भुगतान। QR स्कैनर पेज खोलने के लिए क्लिक करें।";T.hi.donate_upi_btn="QR स्कैन करें &rarr;";T.hi.donate_csr_t="CSR साझेदारी";T.hi.donate_csr_d="कंपनियाँ अपने CSR दायित्वों के तहत विशिष्ट परियोजनाओं को फंड कर सकती हैं।";T.hi.donate_csr_btn="साझेदारी चर्चा करें &rarr;";
+
+// ── CONTACT PAGE TRANSLATIONS ──
+T.en.contact_title="Get in Touch";T.en.contact_subtitle="Reach out to us for donations, CSR partnerships, volunteering, or any general inquiries.";T.en.contact_form_t="Send Us a Message";T.en.contact_details_t="Contact Details";T.en.contact_submit="Send Message";
+T.bn.contact_title="যোগাযোগ করুন";T.bn.contact_subtitle="দান, CSR অংশীদারিত্ব, স্বেচ্ছাসেবা বা যেকোনো সাধারণ অনুসন্ধানের জন্য আমাদের সাথে যোগাযোগ করুন।";T.bn.contact_form_t="আমাদের একটি বার্তা পাঠান";T.bn.contact_details_t="যোগাযোগের বিবরণ";T.bn.contact_submit="বার্তা পাঠান";
+T.hi.contact_title="संपर्क करें";T.hi.contact_subtitle="दान, CSR साझेदारी, स्वयंसेवा या किसी भी सामान्य पूछताछ के लिए हमसे संपर्क करें।";T.hi.contact_form_t="हमें एक संदेश भेजें";T.hi.contact_details_t="संपर्क विवरण";T.hi.contact_submit="संदेश भेजें";
 </script>
 </body>
 </html>
